@@ -96,6 +96,16 @@ public final class VirtualWorld extends PApplet
             }
         }
 
+        //Test Code to add something on click, for now it adds a stump wherever you click
+        Stump stump = Factory.createStump("STUMP", pressed, imageStore.getImageList("stump"));
+        try {
+            world.tryAddEntity(stump);
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("Position occupied");
+        }
+
+
     }
 
     private Point mouseToPoint(int x, int y)
