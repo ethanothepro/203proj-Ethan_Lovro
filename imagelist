@@ -1,4 +1,4 @@
-house images/house.bmp 255 255 255 0
+house images/castle.bmp 255 255 255 0
 obstacle images/water0.png
 obstacle images/water1.png
 obstacle images/water2.png
@@ -21,10 +21,10 @@ tree images/tree2.png
 tree images/tree3.png
 tree images/tree4.png
 stump images/stump.png
-dude images/dude0.png
-dude images/dude1.png
-dude images/dude2.png
-dude images/dude3.png
+dude images/bowser1.png
+dude images/bowser2.png
+dude images/bowser3.png
+dude images/bowser4.png
 fairy images/fairy0.png
 fairy images/fairy1.png
 fairy images/fairy2.png
