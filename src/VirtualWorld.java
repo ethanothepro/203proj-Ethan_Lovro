@@ -1,8 +1,11 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.*;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Optional;
+
 
 import processing.core.*;
 
@@ -84,6 +87,7 @@ public final class VirtualWorld extends PApplet
         Point pressed = mouseToPoint(mouseX, mouseY);
         System.out.println("CLICK! " + pressed.x + ", " + pressed.y);
 
+        /*
         Optional<Entity> entityOptional = world.getOccupant(pressed);
         if (entityOptional.isPresent())
         {
@@ -96,6 +100,9 @@ public final class VirtualWorld extends PApplet
             }
         }
 
+         */
+
+        /*
         //Test Code to add something on click, for now it adds a stump wherever you click
         Stump stump = Factory.createStump("STUMP", pressed, imageStore.getImageList("stump"));
         try {
@@ -104,6 +111,27 @@ public final class VirtualWorld extends PApplet
         catch (IllegalArgumentException e){
             System.out.println("Position occupied");
         }
+
+         */
+
+
+        //Generate points in the area of expansion
+        List<Point> areaPoints = new LinkedList<>();
+
+
+
+
+
+        if ((world.getOccupancyCell(pressed) instanceof Obstacle))
+        {
+            world.removeEntityAt(pressed);
+            world.setBackgroundCell(pressed,new Background("stone", imageStore.getImageList("stone")));
+        }
+        else {
+
+            world.setBackground(pressed, new Background("lava", imageStore.getImageList("lava")));
+        }
+
 
 
     }

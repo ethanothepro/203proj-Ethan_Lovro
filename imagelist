@@ -5,6 +5,9 @@ obstacle images/water2.png
 obstacle images/water1.png
 obstacle images/water0.png
 grass images/grass.png
+lava images/floor.png
+
+stone images/stone.png
 flowers images/flowers.png
 background_default images/none.bmp
 dirt images/dirt.bmp
