@@ -115,6 +115,34 @@ public final class VirtualWorld extends PApplet
          */
 
 
+        List<Point> areaPoints = generateArea(pressed);
+
+
+
+
+
+        for (Point point : areaPoints) {
+
+            if ((world.getOccupancyCell(point) instanceof Obstacle)) {
+                world.removeEntityAt(point);
+                world.tryAddEntity(new Obstacle("stone", point, imageStore.getImageList("obstacle"),1));
+                //world.setBackgroundCell(point, new Background("stone", imageStore.getImageList("stone")));
+            }
+
+
+
+            else{
+
+                world.setBackground(point, new Background("grass", imageStore.getImageList("newgrass")));
+            }
+
+        }
+
+
+
+    }
+
+    private List<Point> generateArea(Point pressed){
         //Generate points in the area of expansion
         List<Point> areaPoints = new LinkedList<>();
 
@@ -132,19 +160,7 @@ public final class VirtualWorld extends PApplet
                 }
             }
         }
-
-        for (Point point : areaPoints) {
-
-            if ((world.getOccupancyCell(point) instanceof Obstacle)) {
-                world.removeEntityAt(point);
-                world.tryAddEntity(new Obstacle("stone", point, imageStore.getImageList("stone"),1));
-                //world.setBackgroundCell(point, new Background("stone", imageStore.getImageList("stone")));
-            } else {
-
-                world.setBackground(point, new Background("lava", imageStore.getImageList("lava")));
-            }
-
-        }
+        return areaPoints;
 
     }
 
