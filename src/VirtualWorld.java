@@ -118,21 +118,33 @@ public final class VirtualWorld extends PApplet
         //Generate points in the area of expansion
         List<Point> areaPoints = new LinkedList<>();
 
+        for (int i = 0; i<10; i++) {
 
+            Point temp = new Point(pressed.x, pressed.y + i);
+            if (world.withinBounds(temp)) {
+                areaPoints.add(temp);
+            }
 
+            for (int j = 0; j < 10; j++) {
 
-
-        if ((world.getOccupancyCell(pressed) instanceof Obstacle))
-        {
-            world.removeEntityAt(pressed);
-            world.setBackgroundCell(pressed,new Background("stone", imageStore.getImageList("stone")));
+                if (world.withinBounds(new Point(pressed.x + j, pressed.y + i))) {
+                    areaPoints.add(new Point(pressed.x + j, pressed.y + i));
+                }
+            }
         }
-        else {
 
-            world.setBackground(pressed, new Background("lava", imageStore.getImageList("lava")));
+        for (Point point : areaPoints) {
+
+            if ((world.getOccupancyCell(point) instanceof Obstacle)) {
+                world.removeEntityAt(point);
+                world.tryAddEntity(new Obstacle("stone", point, imageStore.getImageList("stone"),1));
+                //world.setBackgroundCell(point, new Background("stone", imageStore.getImageList("stone")));
+            } else {
+
+                world.setBackground(point, new Background("lava", imageStore.getImageList("lava")));
+            }
+
         }
-
-
 
     }
 
