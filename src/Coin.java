@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public abstract class Coin extends Collectible {
+public class Coin extends Collectible {
     public Coin(
             String id,
             Point position,

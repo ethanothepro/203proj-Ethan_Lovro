@@ -46,7 +46,7 @@ public final class VirtualWorld extends PApplet
     private EventScheduler scheduler;
 
     private long nextTime;
-    private int frameCount;
+    public int frameCount;
 
     public void settings() {
         size(VIEW_WIDTH, VIEW_HEIGHT);
@@ -94,15 +94,29 @@ public final class VirtualWorld extends PApplet
 
         areaAction(areaPoints);
 
-        Pipe pipe = Factory.createPipe(pressed,imageStore.getImageList("pipe"));
+        Coin coin= new Coin("Coin",pressed,imageStore.getImageList("stone"),1000,600,false) ;
 
         try {
-            world.tryAddEntity(pipe);
+            world.tryAddEntity(coin);
+            System.out.println(world.getEntities());
+
+
         }
         catch (IllegalArgumentException e){
             System.out.println("Position Occupied");
         }
 
+        Mario mario = new Mario("Mario",new Point(0,0),imageStore.getImageList("lava"),5,6);
+
+        try{
+            world.tryAddEntity(mario);
+        }
+
+        catch(IllegalArgumentException e){
+            System.out.println("fuck");
+        }
+
+        scheduleActions(world,scheduler,imageStore);
 
 
     }
@@ -128,7 +142,7 @@ public final class VirtualWorld extends PApplet
             if (id.equals("grass")){
                 world.setBackground(point, new Background("newgrass", imageStore.getImageList("newgrass")));
             }
-            if (id.substring(0,4).equals("dirt")|| world.getBackgroundCell(point).getId().equals("bridge")){
+            if (id.startsWith("dirt")|| world.getBackgroundCell(point).getId().equals("bridge")){
                 world.setBackground(point, new Background("floor", imageStore.getImageList("floor")));
             }
 
@@ -229,6 +243,7 @@ public final class VirtualWorld extends PApplet
     public static void scheduleActions(
             WorldModel world, EventScheduler scheduler, ImageStore imageStore)
     {
+        System.out.println("DSADA");
         for (Entity entity : world.getEntities()) {
             if (entity instanceof Animators) {
                 ((Animators) entity).scheduleActions(scheduler, world, imageStore);
