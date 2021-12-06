@@ -46,6 +46,7 @@ public final class VirtualWorld extends PApplet
     private EventScheduler scheduler;
 
     private long nextTime;
+    private int frameCount;
 
     public void settings() {
         size(VIEW_WIDTH, VIEW_HEIGHT);
@@ -80,83 +81,78 @@ public final class VirtualWorld extends PApplet
         }
 
         view.drawViewport();
+        frameCount+=1;
+
     }
 
     // Just for debugging and for P5
     public void mousePressed() {
         Point pressed = mouseToPoint(mouseX, mouseY);
-        System.out.println("CLICK! " + pressed.x + ", " + pressed.y);
+        List<Point> areaPoints = generateArea(pressed);
+        System.out.println("Background: " + world.getBackgroundCell(pressed).getId());
+        System.out.println("Object: " + world.getOccupancyCell(pressed));
 
-        /*
-        Optional<Entity> entityOptional = world.getOccupant(pressed);
-        if (entityOptional.isPresent())
-        {
-            Entity entity = entityOptional.get();
-            if (entity instanceof Plant) {
-                System.out.println(entity.getId() + ": " + entity.getClass() + " : " + ((Plant) entity).getHealth());
-            }
-            else{
-                System.out.println(entity.getClass());
-            }
-        }
+        areaAction(areaPoints);
 
-         */
+        Pipe pipe = Factory.createPipe(pressed,imageStore.getImageList("pipe"));
 
-        /*
-        //Test Code to add something on click, for now it adds a stump wherever you click
-        Stump stump = Factory.createStump("STUMP", pressed, imageStore.getImageList("stump"));
         try {
-            world.tryAddEntity(stump);
+            world.tryAddEntity(pipe);
         }
         catch (IllegalArgumentException e){
-            System.out.println("Position occupied");
-        }
-
-         */
-
-
-        List<Point> areaPoints = generateArea(pressed);
-
-
-
-
-
-        for (Point point : areaPoints) {
-
-            if ((world.getOccupancyCell(point) instanceof Obstacle)) {
-                world.removeEntityAt(point);
-                world.tryAddEntity(new Obstacle("stone", point, imageStore.getImageList("obstacle"),1));
-                //world.setBackgroundCell(point, new Background("stone", imageStore.getImageList("stone")));
-            }
-
-
-
-            else{
-
-                world.setBackground(point, new Background("grass", imageStore.getImageList("newgrass")));
-            }
-
+            System.out.println("Position Occupied");
         }
 
 
 
     }
 
+    //Code to determine what to do within area passed in
+    private void areaAction(List<Point> areaPoints){
+        for (Point point : areaPoints) {
+
+            if ((world.getOccupancyCell(point) instanceof Obstacle)) {
+                world.removeEntityAt(point);
+
+                Obstacle lava = Factory.createObstacle("lava", point, 4, imageStore.getImageList("lava"));
+                world.tryAddEntity(lava);
+                //world.setBackgroundCell(point, new Background("stone", imageStore.getImageList("stone")));
+            }
+
+
+
+            //If there's no object at this point, then we check for each type of background cell and replace it
+
+            String id = world.getBackgroundCell(point).getId();
+
+            if (id.equals("grass")){
+                world.setBackground(point, new Background("newgrass", imageStore.getImageList("newgrass")));
+            }
+            if (id.substring(0,4).equals("dirt")|| world.getBackgroundCell(point).getId().equals("bridge")){
+                world.setBackground(point, new Background("floor", imageStore.getImageList("floor")));
+            }
+
+        }
+
+    }
+
     private List<Point> generateArea(Point pressed){
         //Generate points in the area of expansion
+
+
         List<Point> areaPoints = new LinkedList<>();
 
-        for (int i = 0; i<10; i++) {
+        for (int i = 0; i<11; i++) {
 
-            Point temp = new Point(pressed.x, pressed.y + i);
+            Point temp = new Point(pressed.x, pressed.y -5 + i);
             if (world.withinBounds(temp)) {
                 areaPoints.add(temp);
             }
 
-            for (int j = 0; j < 10; j++) {
+            for (int j = 0; j < 11; j++) {
 
-                if (world.withinBounds(new Point(pressed.x + j, pressed.y + i))) {
-                    areaPoints.add(new Point(pressed.x + j, pressed.y + i));
+                if (world.withinBounds(new Point(pressed.x + j -5, pressed.y + i -5))) {
+                    areaPoints.add(new Point(pressed.x + j -5, pressed.y + i -5));
                 }
             }
         }

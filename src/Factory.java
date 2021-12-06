@@ -94,4 +94,10 @@ public class Factory {
         return new DudeFull(id, position, images, resourceLimit,
                 actionPeriod, animationPeriod);
     }
+
+    public static Pipe createPipe(Point position,List<PImage> images){
+
+        return new Pipe("Pipe",position, images);
+
+    }
 }
