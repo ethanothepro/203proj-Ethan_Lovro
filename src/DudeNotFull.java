@@ -37,9 +37,12 @@ public class DudeNotFull extends MovingEntity{
             EventScheduler scheduler)
     {
 
+
+
         List<PImage> images = new ArrayList<>();
         Tree tree = new Tree("0", new Point(0,0),images,0,0,0);
         Sapling sapling = new Sapling("0",new Point(0,0),images,0,0,0,0);
+
 
         Optional<Entity> target =
                 Functions.findNearest(world, super.getPosition(), new ArrayList<>(Arrays.asList(tree, sapling)));

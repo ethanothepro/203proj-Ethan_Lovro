@@ -9,6 +9,8 @@ import java.util.Optional;
 
 import processing.core.*;
 
+import javax.sound.midi.SysexMessage;
+
 public final class VirtualWorld extends PApplet
 {
     private static final int TIMER_ACTION_PERIOD = 100;
@@ -48,6 +50,7 @@ public final class VirtualWorld extends PApplet
     private long nextTime;
     public int frameCount;
 
+
     public void settings() {
         size(VIEW_WIDTH, VIEW_HEIGHT);
     }
@@ -71,6 +74,8 @@ public final class VirtualWorld extends PApplet
         scheduleActions(world, scheduler, imageStore);
 
         nextTime = System.currentTimeMillis() + TIMER_ACTION_PERIOD;
+
+
     }
 
     public void draw() {
@@ -83,6 +88,12 @@ public final class VirtualWorld extends PApplet
         view.drawViewport();
         frameCount+=1;
 
+
+
+
+
+
+
     }
 
     // Just for debugging and for P5
@@ -94,11 +105,11 @@ public final class VirtualWorld extends PApplet
 
         areaAction(areaPoints);
 
-        Coin coin= new Coin("Coin",pressed,imageStore.getImageList("stone"),1000,600,false) ;
+        Coin coin= new Coin("Coin",pressed,imageStore.getImageList("coin"),1000,600,false) ;
 
         try {
             world.tryAddEntity(coin);
-            System.out.println(world.getEntities());
+
 
 
         }
@@ -106,15 +117,7 @@ public final class VirtualWorld extends PApplet
             System.out.println("Position Occupied");
         }
 
-        Mario mario = new Mario("Mario",new Point(0,0),imageStore.getImageList("lava"),5,6);
 
-        try{
-            world.tryAddEntity(mario);
-        }
-
-        catch(IllegalArgumentException e){
-            System.out.println("fuck");
-        }
 
         scheduleActions(world,scheduler,imageStore);
 
@@ -133,6 +136,35 @@ public final class VirtualWorld extends PApplet
                 //world.setBackgroundCell(point, new Background("stone", imageStore.getImageList("stone")));
             }
 
+            if(world.getOccupancyCell(point) instanceof DudeNotFull || world.getOccupancyCell(point) instanceof DudeFull){
+                world.removeEntityAt(point);
+
+                Mario mario = new Mario("Mario", point,imageStore.getImageList("mario"),100,6);
+                try{
+                    world.tryAddEntity(mario);
+
+                }
+                catch (Exception e){
+                    System.out.println("An Error Occured");
+                }
+
+            }
+
+            /*
+            if (world.getOccupancyCell(point) instanceof Tree){
+                world.removeEntityAt(point);
+                Coin coin= new Coin("Coin",point,imageStore.getImageList("coin"),1000,600,false) ;
+                try{
+                    world.tryAddEntity(coin);
+                    coin.scheduleActions(scheduler,world, imageStore);
+                }
+                catch (Exception e){
+                    System.out.println("An Error Occured");
+                }
+            }
+
+             */
+
 
 
             //If there's no object at this point, then we check for each type of background cell and replace it
@@ -142,11 +174,16 @@ public final class VirtualWorld extends PApplet
             if (id.equals("grass")){
                 world.setBackground(point, new Background("newgrass", imageStore.getImageList("newgrass")));
             }
+            /*
             if (id.startsWith("dirt")|| world.getBackgroundCell(point).getId().equals("bridge")){
                 world.setBackground(point, new Background("floor", imageStore.getImageList("floor")));
             }
 
+             */
+
         }
+
+
 
     }
 

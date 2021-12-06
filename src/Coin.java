@@ -3,6 +3,9 @@ import processing.core.PImage;
 import java.util.List;
 
 public class Coin extends Collectible {
+
+    public static int coinCount = 0;
+
     public Coin(
             String id,
             Point position,
@@ -12,6 +15,8 @@ public class Coin extends Collectible {
             boolean collected)
     {
         super(collected, actionPeriod, animationPeriod, id, position, images);
+
+
 
     }
 
@@ -43,5 +48,9 @@ public class Coin extends Collectible {
             return true;
         }
         return false;
+    }
+
+    public int getCoinCount(){
+        return coinCount;
     }
 }

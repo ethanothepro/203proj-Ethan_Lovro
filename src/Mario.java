@@ -9,6 +9,8 @@ import java.util.function.Predicate;
 
 public class Mario extends MovingEntity{
 
+    public ImageStore imageStore;
+
     public Mario(
             String id,
             Point position,
@@ -26,13 +28,15 @@ public class Mario extends MovingEntity{
             EventScheduler scheduler)
     {
 
-        System.out.println("DSAAD");
+        this.imageStore = imageStore;
+        System.out.println("Activity");
         List<PImage> images = new ArrayList<>();
         Coin coin= new Coin("0", new Point(0, 0), images, 0, 0, false);
         //Set to goomba later
         //Sapling sapling = new Sapling("0",new Point(0,0),images,0,0,0,0);
         Optional<Entity> target =
                 Functions.findNearest(world, super.getPosition(), new ArrayList<>(Arrays.asList(coin)));
+
 
 
         if (!target.isPresent() || !moveTo( world, target.get(), scheduler))
@@ -42,7 +46,14 @@ public class Mario extends MovingEntity{
                     Factory.createActivityAction(this, world, imageStore),
                     this.getActionPeriod());
         }
+
+
+
+
+
+
     }
+
 
 
     public boolean moveTo(
@@ -54,18 +65,17 @@ public class Mario extends MovingEntity{
 
         if (Functions.adjacent(super.getPosition(), (target).getPosition())) {
 
-
             ((Coin)target).setCollected();
+
+
+
+
             return true;
         }
         else {
             Point nextPos = this.nextPosition(world, (target).getPosition());
 
             if (!super.getPosition().equals(nextPos)) {
-                Optional<Entity> occupant = world.getOccupant(nextPos);
-                if (occupant.isPresent()) {
-                    scheduler.unscheduleAllEvents(occupant.get());
-                }
 
                 world.moveEntity(this, nextPos);
             }
