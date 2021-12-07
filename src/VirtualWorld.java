@@ -109,6 +109,7 @@ public final class VirtualWorld extends PApplet
 
         try {
             world.tryAddEntity(coin);
+            coin.scheduleActions(scheduler,world, imageStore);
 
 
 
@@ -119,7 +120,7 @@ public final class VirtualWorld extends PApplet
 
 
 
-        scheduleActions(world,scheduler,imageStore);
+
 
 
     }
@@ -139,9 +140,10 @@ public final class VirtualWorld extends PApplet
             if(world.getOccupancyCell(point) instanceof DudeNotFull || world.getOccupancyCell(point) instanceof DudeFull){
                 world.removeEntityAt(point);
 
-                Mario mario = new Mario("Mario", point,imageStore.getImageList("mario"),100,6);
+                Mario mario = new Mario("Mario", point,imageStore.getImageList("mario"),1000,6);
                 try{
                     world.tryAddEntity(mario);
+                    mario.scheduleActions(scheduler,world,imageStore);
 
                 }
                 catch (Exception e){
@@ -150,7 +152,7 @@ public final class VirtualWorld extends PApplet
 
             }
 
-            /*
+
             if (world.getOccupancyCell(point) instanceof Tree){
                 world.removeEntityAt(point);
                 Coin coin= new Coin("Coin",point,imageStore.getImageList("coin"),1000,600,false) ;
@@ -163,7 +165,7 @@ public final class VirtualWorld extends PApplet
                 }
             }
 
-             */
+
 
 
 

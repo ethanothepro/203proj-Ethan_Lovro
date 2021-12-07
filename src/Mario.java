@@ -39,6 +39,8 @@ public class Mario extends MovingEntity{
 
 
 
+
+
         if (!target.isPresent() || !moveTo( world, target.get(), scheduler))
         {
 
@@ -66,7 +68,7 @@ public class Mario extends MovingEntity{
         if (Functions.adjacent(super.getPosition(), (target).getPosition())) {
 
             ((Coin)target).setCollected();
-
+            scheduleActions(scheduler,world,imageStore);
 
 
 
