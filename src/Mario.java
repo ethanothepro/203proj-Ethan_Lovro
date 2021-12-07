@@ -29,13 +29,12 @@ public class Mario extends MovingEntity{
     {
 
         this.imageStore = imageStore;
-
         List<PImage> images = new ArrayList<>();
         Coin coin= new Coin("0", new Point(0, 0), images, 0, 0, false);
         //Set to goomba later
         Goomba goomba = new Goomba("0",new Point(0,0),images,0,0);
         Optional<Entity> target =
-                Functions.findNearest(world, super.getPosition(), new ArrayList<>(Arrays.asList(goomba)));
+                Functions.findNearest(world, super.getPosition(), new ArrayList<>(Arrays.asList(goomba,coin)));
 
 
 
@@ -48,6 +47,12 @@ public class Mario extends MovingEntity{
                     Factory.createActivityAction(this, world, imageStore),
                     this.getActionPeriod());
         }
+
+
+
+
+
+
 
 
 
@@ -80,6 +85,7 @@ public class Mario extends MovingEntity{
 
                 world.moveEntity(this, nextPos);
             }
+
             return false;
         }
     }
@@ -88,7 +94,7 @@ public class Mario extends MovingEntity{
     {
 
         PathingStrategy strat = new AStarPathingStrategy();
-        Predicate<Point> p = p1 -> world.withinBounds(p1) && (!(world.isOccupied(p1)) || world.getOccupancyCell(p1) instanceof Pipe);
+        Predicate<Point> p = p1 -> world.withinBounds(p1) && (!(world.isOccupied(p1)) );
         BiPredicate<Point,Point> b = (p1, p2) -> Functions.adjacent(p1,p2) ;
         List<Point> path = strat.computePath(super.getPosition(), destPos,p,b,PathingStrategy.CARDINAL_NEIGHBORS);
 

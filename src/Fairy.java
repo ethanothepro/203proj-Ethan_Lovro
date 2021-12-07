@@ -30,19 +30,31 @@ public class Fairy extends MovingEntity{
 
         List<PImage> images = new ArrayList<>();
         Stump stump = new Stump("0",new Point(0,0),images);
+        Cactus cactus = new Cactus("0", new Point(0,0), images);
         Optional<Entity> fairyTarget =
-                Functions.findNearest(world, super.getPosition(), new ArrayList<>(Arrays.asList(stump)));
+                Functions.findNearest(world, super.getPosition(), new ArrayList<>(Arrays.asList(stump,cactus)));
 
         if (fairyTarget.isPresent()) {
             Point tgtPos = fairyTarget.get().getPosition();
 
 
             if (moveTo(world, fairyTarget.get(), scheduler)) {
-                Sapling sapling = Factory.createSapling("sapling_" + super.getId(), tgtPos,
-                        imageStore.getImageList(Functions.SAPLING_KEY));
 
-                world.addEntity(sapling);
-                sapling.scheduleActions(scheduler, world, imageStore);
+                if (fairyTarget.get() instanceof Stump) {
+                    Sapling sapling = Factory.createSapling("sapling_" + super.getId(), tgtPos,
+                            imageStore.getImageList(Functions.SAPLING_KEY));
+
+                    world.addEntity(sapling);
+                    sapling.scheduleActions(scheduler, world, imageStore);
+                }
+
+                else{
+                    Coin coin= new Coin("Coin",tgtPos,imageStore.getImageList("coin"),1000,Functions.getNumFromRange(100,6),false) ;
+                    world.addEntity(coin);
+                    coin.scheduleActions(scheduler,world,imageStore);
+                    world.setBackground(tgtPos, new Background("sandstone", imageStore.getImageList("sandstone")));
+                }
+
             }
         }
 

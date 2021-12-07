@@ -51,6 +51,10 @@ public final class VirtualWorld extends PApplet
     private long nextTime;
     public int frameCount;
 
+    private char currentKey = 'd';
+
+
+
 
     public void settings() {
         size(VIEW_WIDTH, VIEW_HEIGHT);
@@ -106,9 +110,13 @@ public final class VirtualWorld extends PApplet
     @Override
     public void keyPressed(KeyEvent event) {
         super.keyPressed(event);
-        if (key == 'p'){
-            System.out.println("ppppp");
+        if (key == 'w'){
+            currentKey = 'w';
         }
+        if( key == 'd'){
+            currentKey = 'd';
+        }
+
 
     }
 
@@ -119,24 +127,36 @@ public final class VirtualWorld extends PApplet
         System.out.println("Background: " + world.getBackgroundCell(pressed).getId());
         System.out.println("Object: " + world.getOccupancyCell(pressed));
 
-        areaAction(areaPoints);
+        if(currentKey == 'd') {
+            areaAction(areaPoints);
 
-        Goomba goomba= new Goomba("Goomba",pressed,imageStore.getImageList("goomba"),1000,6) ;
+            Goomba goomba = new Goomba("Goomba", new Point(pressed.x, pressed.y - 1), imageStore.getImageList("goomba"), 1000, 6);
+            Pipe pipe = new Pipe("Pipe", pressed, imageStore.getImageList("pipe"));
 
-        try {
-            world.tryAddEntity(goomba);
-            goomba.scheduleActions(scheduler,world, imageStore);
+            try {
+                //world.removeEntityAt(pressed);
+                world.tryAddEntity(goomba);
+                goomba.scheduleActions(scheduler, world, imageStore);
+                world.tryAddEntity(pipe);
 
+
+            } catch (IllegalArgumentException e) {
+                System.out.println("Position Occupied");
+            }
 
 
         }
-        catch (IllegalArgumentException e){
-            System.out.println("Position Occupied");
+
+        if(currentKey == 'w'){
+            Obstacle water = new Obstacle("Water", pressed, imageStore.getImageList("obstacle"),Functions.getNumFromRange(500,100) );
+            water.scheduleActions(scheduler,world,imageStore);
+            world.removeEntityAt(pressed);
+            world.addEntity(water);
         }
 
-
-
-
+        if(currentKey == 'r'){
+            //Obstacle stone = ("Water", pressed, imageStore.getImageList("obstacle"),4 );
+        }
 
 
     }
@@ -150,6 +170,7 @@ public final class VirtualWorld extends PApplet
 
                 Obstacle lava = Factory.createObstacle("lava", point, 4, imageStore.getImageList("lava"));
                 world.tryAddEntity(lava);
+                lava.scheduleActions(scheduler,world,imageStore);
                 //world.setBackgroundCell(point, new Background("stone", imageStore.getImageList("stone")));
             }
 
@@ -169,16 +190,18 @@ public final class VirtualWorld extends PApplet
             }
 
 
-            if (world.getOccupancyCell(point) instanceof Tree){
+            if (world.getOccupancyCell(point) instanceof Tree || world.getOccupancyCell(point) instanceof Stump){
                 world.removeEntityAt(point);
                 Coin coin= new Coin("Coin",point,imageStore.getImageList("coin"),1000,Functions.getNumFromRange(100,6),false) ;
                 try{
                     world.tryAddEntity(coin);
                     coin.scheduleActions(scheduler,world, imageStore);
+                    world.setBackground(point,new Background("sand", imageStore.getImageList("sand")));
                 }
                 catch (Exception e){
                     System.out.println("An Error Occured");
                 }
+
             }
 
 
@@ -190,11 +213,43 @@ public final class VirtualWorld extends PApplet
             String id = world.getBackgroundCell(point).getId();
 
             if (id.equals("grass")){
-                world.setBackground(point, new Background("newgrass", imageStore.getImageList("newgrass")));
+                Random random = new Random();
+                int rand = random.nextInt(10);
+
+                if (rand>0) {
+                    world.setBackground(point, new Background("newgrass", imageStore.getImageList("sand")));
+                }
+                else{
+                    Cactus cactus = new Cactus("cactus",point,imageStore.getImageList("cactus"));
+                    try{
+                        world.tryAddEntity(cactus);
+                    }
+                    catch(Exception e){
+                        System.out.println("Oops");
+                    }
+                }
+
             }
 
             if (id.startsWith("dirt")|| world.getBackgroundCell(point).getId().equals("bridge")){
                 world.setBackground(point, new Background("dirt", imageStore.getImageList("dirt")));
+            }
+
+            if (id.equals("flowers")){
+                Random random = new Random();
+                int rand = random.nextInt(10);
+                if (rand>2) {
+                    world.setBackgroundCell(point, new Background("sandstone", imageStore.getImageList("sandstone")));
+                }
+                else{
+                    Cactus cactus = new Cactus("cactus",point,imageStore.getImageList("cactus"));
+                    try{
+                        world.tryAddEntity(cactus);
+                    }
+                    catch(Exception e){
+                        System.out.println("Oops");
+                    }
+                }
             }
 
 
@@ -228,6 +283,8 @@ public final class VirtualWorld extends PApplet
         return areaPoints;
 
     }
+
+
 
     private Point mouseToPoint(int x, int y)
     {

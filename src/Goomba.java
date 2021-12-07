@@ -30,9 +30,9 @@ public class Goomba extends MovingEntity {
             ImageStore imageStore,
             EventScheduler scheduler) {
 
-        System.out.println("hello");
+        //System.out.println("hello");
         this.imageStore = imageStore;
-        if (!moveTo(world, currentTarget, scheduler)) {
+        if (!moveTo(world, currentTarget, scheduler) || !transformGoomba(world, scheduler, imageStore)) {
             scheduler.scheduleEvent(this,
                     Factory.createActivityAction(this, world, imageStore),
                     this.getActionPeriod());
