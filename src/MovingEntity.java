@@ -8,8 +8,5 @@ public abstract class MovingEntity extends ActiveEntity {
         super(actionPeriod, animationPeriod, id, position, images);
     }
 
-    public abstract boolean moveTo(
-            WorldModel world,
-            Entity target,
-            EventScheduler scheduler);
+
 }

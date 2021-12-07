@@ -29,13 +29,13 @@ public class Mario extends MovingEntity{
     {
 
         this.imageStore = imageStore;
-        System.out.println("Activity");
+
         List<PImage> images = new ArrayList<>();
         Coin coin= new Coin("0", new Point(0, 0), images, 0, 0, false);
         //Set to goomba later
-        //Sapling sapling = new Sapling("0",new Point(0,0),images,0,0,0,0);
+        Goomba goomba = new Goomba("0",new Point(0,0),images,0,0);
         Optional<Entity> target =
-                Functions.findNearest(world, super.getPosition(), new ArrayList<>(Arrays.asList(coin)));
+                Functions.findNearest(world, super.getPosition(), new ArrayList<>(Arrays.asList(coin,goomba)));
 
 
 
@@ -67,9 +67,8 @@ public class Mario extends MovingEntity{
 
         if (Functions.adjacent(super.getPosition(), (target).getPosition())) {
 
-            ((Coin)target).setCollected();
-            scheduleActions(scheduler,world,imageStore);
-
+            world.removeEntityAt(target.getPosition());
+            scheduleActions(scheduler, world, imageStore);
 
 
             return true;

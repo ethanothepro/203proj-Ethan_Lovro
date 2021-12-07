@@ -29,7 +29,7 @@ public class Goomba extends MovingEntity {
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler) {
-        System.out.println(isRight);
+
         this.imageStore = imageStore;
         if (!moveTo(world, currentTarget, scheduler) || !transformGoomba(world, scheduler, imageStore)) {
             scheduler.scheduleEvent(this,

@@ -105,11 +105,11 @@ public final class VirtualWorld extends PApplet
 
         areaAction(areaPoints);
 
-        Coin coin= new Coin("Coin",pressed,imageStore.getImageList("coin"),1000,600,false) ;
+        Goomba goomba= new Goomba("Goomba",pressed,imageStore.getImageList("goomba"),1000,6) ;
 
         try {
-            world.tryAddEntity(coin);
-            coin.scheduleActions(scheduler,world, imageStore);
+            world.tryAddEntity(goomba);
+            goomba.scheduleActions(scheduler,world, imageStore);
 
 
 
@@ -140,7 +140,7 @@ public final class VirtualWorld extends PApplet
             if(world.getOccupancyCell(point) instanceof DudeNotFull || world.getOccupancyCell(point) instanceof DudeFull){
                 world.removeEntityAt(point);
 
-                Mario mario = new Mario("Mario", point,imageStore.getImageList("mario"),1000,6);
+                Mario mario = new Mario("Mario", point,imageStore.getImageList("mario"),10,6);
                 try{
                     world.tryAddEntity(mario);
                     mario.scheduleActions(scheduler,world,imageStore);
