@@ -1,4 +1,6 @@
-house images/castle.bmp 255 255 255 0
+house images/house.bmp 255 255 255 0
+castle images/castle.bmp
+
 obstacle images/water0.png
 obstacle images/water1.png
 obstacle images/water2.png
@@ -9,7 +11,13 @@ newgrass images/newgrass.png
 grass images/grass.png
 lava images/lava0.png
 lava images/lava1.png
-
+lava images/lava2.png
+lava images/lava3.png
+lava images/lava4.png
+lava images/lava5.png
+lava images/lava6.png
+lava images/lava7.png
+lava images/lava8.png
 
 mario images/mario0.png
 mario images/mario1.png
