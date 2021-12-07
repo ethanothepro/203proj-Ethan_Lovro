@@ -204,6 +204,12 @@ public final class VirtualWorld extends PApplet
 
             }
 
+            if (world.getOccupancyCell(point) instanceof House){
+                world.removeEntityAt(point);
+                House house  = new House("Castle",point, imageStore.getImageList("castle"));
+                world.addEntity(house);
+                world.setBackground(point, new Background("sand", imageStore.getImageList("sand")));
+            }
 
 
 
@@ -225,7 +231,7 @@ public final class VirtualWorld extends PApplet
                         world.tryAddEntity(cactus);
                     }
                     catch(Exception e){
-                        System.out.println("Oops");
+
                     }
                 }
 
@@ -247,7 +253,7 @@ public final class VirtualWorld extends PApplet
                         world.tryAddEntity(cactus);
                     }
                     catch(Exception e){
-                        System.out.println("Oops");
+
                     }
                 }
             }
