@@ -30,8 +30,9 @@ public class Goomba extends MovingEntity {
             ImageStore imageStore,
             EventScheduler scheduler) {
 
+        System.out.println("hello");
         this.imageStore = imageStore;
-        if (!moveTo(world, currentTarget, scheduler) || !transformGoomba(world, scheduler, imageStore)) {
+        if (!moveTo(world, currentTarget, scheduler)) {
             scheduler.scheduleEvent(this,
                     Factory.createActivityAction(this, world, imageStore),
                     this.getActionPeriod());
@@ -55,23 +56,22 @@ public class Goomba extends MovingEntity {
             WorldModel world,
             Point target,
             EventScheduler scheduler) {
+
+        //System.out.println(currentTarget);
         if (Functions.adjacent(super.getPosition(), currentTarget)) {
-            if (isRight) {
-                isRight =false;
+            if (currentTarget.equals(a)) {
                 currentTarget = b;
-                scheduleActions(scheduler, world, imageStore);
-                return true;
             }
             else {
-                isRight = true;
                 currentTarget = a;
-                scheduleActions(scheduler, world, imageStore);
-                return true;
             }
+
+
+            return true;
         }
         else {
             Point nextPos = this.nextPositionGoomba(world, currentTarget);
-            transformGoomba(world, scheduler, imageStore);
+
 
             if (!super.getPosition().equals(nextPos)) {
                 world.moveEntity(this, nextPos);

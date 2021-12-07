@@ -14,7 +14,17 @@ mario images/mario0.png
 mario images/mario1.png
 mario images/mario2.png
 
+
+
+
+
 coin images/coin0.png
+coin images/coin1.png
+coin images/coin2.png
+coin images/coin3.png
+coin images/coin4.png
+coin images/coin5.png
+coin images/coin6.png
 
 goomba images/goomba0.png
 goomba images/goomba1.png
@@ -34,7 +44,7 @@ pipe images/pipe.png
 stone images/stone.png
 flowers images/flowers.png
 background_default images/none.bmp
-dirt images/dirt.bmp
+dirt images/mariodirt1.png
 dirt_horiz images/dirt_horiz.png
 dirt_vert_left images/dirt_vert_right.png
 dirt_vert_right images/dirt_vert_left.png

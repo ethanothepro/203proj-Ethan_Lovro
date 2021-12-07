@@ -35,7 +35,7 @@ public class Mario extends MovingEntity{
         //Set to goomba later
         Goomba goomba = new Goomba("0",new Point(0,0),images,0,0);
         Optional<Entity> target =
-                Functions.findNearest(world, super.getPosition(), new ArrayList<>(Arrays.asList(coin,goomba)));
+                Functions.findNearest(world, super.getPosition(), new ArrayList<>(Arrays.asList(goomba)));
 
 
 

@@ -8,6 +8,7 @@ import java.util.Optional;
 
 
 import processing.core.*;
+import processing.event.KeyEvent;
 
 import javax.sound.midi.SysexMessage;
 
@@ -76,9 +77,14 @@ public final class VirtualWorld extends PApplet
         nextTime = System.currentTimeMillis() + TIMER_ACTION_PERIOD;
 
 
+
     }
 
     public void draw() {
+
+
+
+
         long time = System.currentTimeMillis();
         if (time >= nextTime) {
             this.scheduler.updateOnTime(time);
@@ -93,6 +99,16 @@ public final class VirtualWorld extends PApplet
 
 
 
+
+    }
+
+
+    @Override
+    public void keyPressed(KeyEvent event) {
+        super.keyPressed(event);
+        if (key == 'p'){
+            System.out.println("ppppp");
+        }
 
     }
 
@@ -140,7 +156,7 @@ public final class VirtualWorld extends PApplet
             if(world.getOccupancyCell(point) instanceof DudeNotFull || world.getOccupancyCell(point) instanceof DudeFull){
                 world.removeEntityAt(point);
 
-                Mario mario = new Mario("Mario", point,imageStore.getImageList("mario"),10,6);
+                Mario mario = new Mario("Mario", point,imageStore.getImageList("mario"),500,1);
                 try{
                     world.tryAddEntity(mario);
                     mario.scheduleActions(scheduler,world,imageStore);
@@ -155,7 +171,7 @@ public final class VirtualWorld extends PApplet
 
             if (world.getOccupancyCell(point) instanceof Tree){
                 world.removeEntityAt(point);
-                Coin coin= new Coin("Coin",point,imageStore.getImageList("coin"),1000,600,false) ;
+                Coin coin= new Coin("Coin",point,imageStore.getImageList("coin"),1000,Functions.getNumFromRange(100,6),false) ;
                 try{
                     world.tryAddEntity(coin);
                     coin.scheduleActions(scheduler,world, imageStore);
@@ -176,12 +192,12 @@ public final class VirtualWorld extends PApplet
             if (id.equals("grass")){
                 world.setBackground(point, new Background("newgrass", imageStore.getImageList("newgrass")));
             }
-            /*
+
             if (id.startsWith("dirt")|| world.getBackgroundCell(point).getId().equals("bridge")){
-                world.setBackground(point, new Background("floor", imageStore.getImageList("floor")));
+                world.setBackground(point, new Background("dirt", imageStore.getImageList("dirt")));
             }
 
-             */
+
 
         }
 
