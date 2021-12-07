@@ -131,7 +131,7 @@ public final class WorldModel
                     Integer.parseInt(properties[Functions.FAIRY_ROW]));
             Entity entity = Factory.createFairy(properties[Functions.FAIRY_ID],
                     pt,
-                    Integer.parseInt(properties[Functions.FAIRY_ACTION_PERIOD]),
+                    500,
                     Integer.parseInt(properties[Functions.FAIRY_ANIMATION_PERIOD]),
                     imageStore.getImageList(Functions.FAIRY_KEY));
             this.tryAddEntity(entity);

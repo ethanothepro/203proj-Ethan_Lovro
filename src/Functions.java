@@ -66,7 +66,7 @@ public final class Functions
     public static final int FAIRY_COL = 2;
     public static final int FAIRY_ROW = 3;
     public static final int FAIRY_ANIMATION_PERIOD = 4;
-    public static final int FAIRY_ACTION_PERIOD = 5;
+    public static final int FAIRY_ACTION_PERIOD = 500;
 
 
 
