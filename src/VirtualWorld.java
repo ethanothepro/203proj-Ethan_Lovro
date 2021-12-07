@@ -116,6 +116,18 @@ public final class VirtualWorld extends PApplet
         if( key == 'd'){
             currentKey = 'd';
         }
+        if(key == 'r'){
+            currentKey = 'r';
+        }
+        if(key == 'l') {
+            currentKey = 'l';
+        }
+        if(key == 's') {
+            currentKey = 's';
+        }
+        if(key == 'c') {
+            currentKey = 'c';
+        }
 
 
     }
@@ -149,15 +161,35 @@ public final class VirtualWorld extends PApplet
 
         if(currentKey == 'w'){
             Obstacle water = new Obstacle("Water", pressed, imageStore.getImageList("obstacle"),Functions.getNumFromRange(500,100) );
-            water.scheduleActions(scheduler,world,imageStore);
             world.removeEntityAt(pressed);
             world.addEntity(water);
+            water.scheduleActions(scheduler,world,imageStore);
         }
 
         if(currentKey == 'r'){
-            //Obstacle stone = ("Water", pressed, imageStore.getImageList("obstacle"),4 );
+            Obstacle stone = new Obstacle("Stone", pressed, imageStore.getImageList("stone"),4 );
+            world.removeEntityAt(pressed);
+            world.addEntity(stone);
+            stone.scheduleActions(scheduler, world, imageStore);
         }
 
+        if(currentKey == 'l'){
+            Obstacle lava = new Obstacle("Lava", pressed, imageStore.getImageList("lava"),Functions.getNumFromRange(500,100) );
+            world.removeEntityAt(pressed);
+            world.addEntity(lava);
+            lava.scheduleActions(scheduler, world, imageStore);
+        }
+        if(currentKey == 's'){
+            world.removeEntityAt(pressed);
+            world.setBackground(pressed, new Background("sand", imageStore.getImageList("sand")));
+        }
+
+        if(currentKey == 'c'){
+            world.removeEntityAt(pressed);
+            Coin coin= new Coin("Coin",pressed,imageStore.getImageList("coin"),1000,Functions.getNumFromRange(100,6),false) ;
+            world.addEntity(coin);
+            coin.scheduleActions(scheduler, world, imageStore);
+        }
 
     }
 
