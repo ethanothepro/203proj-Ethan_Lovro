@@ -49,11 +49,12 @@ public final class VirtualWorld extends PApplet
     private EventScheduler scheduler;
 
     private long nextTime;
-    public int frameCount;
+
 
     private char currentKey = 'd';
     private boolean selectorLarge = true;
-
+    private boolean error = false;
+    private int holder;
 
 
     public void settings() {
@@ -105,14 +106,25 @@ public final class VirtualWorld extends PApplet
         fill(0,0,0,0);
 
         if (!selectorLarge) {
+
+            stroke(0,255,0);
+
+            if (error){stroke(255,0,0);}
             int alignedObjectX = (mouseX / TILE_WIDTH) * TILE_WIDTH;
             int alignedObjectY = (mouseY / TILE_HEIGHT) * TILE_HEIGHT;
             rect(alignedObjectX, alignedObjectY, 32, 32);
         }
+
         else{
+
             int alignedObjectX = (mouseX / TILE_WIDTH) * TILE_WIDTH;
             int alignedObjectY = (mouseY / TILE_HEIGHT) * TILE_HEIGHT;
             rect(alignedObjectX-160, alignedObjectY-160, 352, 352);
+
+
+            stroke(255,255,255);
+
+            rect(alignedObjectX, alignedObjectY-32, 32, 64);
 
         }
 
@@ -191,16 +203,21 @@ public final class VirtualWorld extends PApplet
             Goomba goomba = new Goomba("Goomba", new Point(pressed.x, pressed.y - 1), imageStore.getImageList("goomba"), 1000, 6);
             Pipe pipe = new Pipe("Pipe", pressed, imageStore.getImageList("pipe"));
 
-            try {
-                //world.removeEntityAt(pressed);
-                world.tryAddEntity(goomba);
-                goomba.scheduleActions(scheduler, world, imageStore);
-                world.tryAddEntity(pipe);
+
+                if(world.getOccupancyCell( new Point(pressed.x, pressed.y - 1)) == null && world.getOccupancyCell(pressed) == null) {
+                    world.tryAddEntity(goomba);
+                    goomba.scheduleActions(scheduler, world, imageStore);
+                    world.tryAddEntity(pipe);
+                }
+                else{
+                    System.out.println("Position Occupied");
+                    error = true;
+
+                }
 
 
-            } catch (IllegalArgumentException e) {
-                System.out.println("Position Occupied");
-            }
+
+
 
 
         }
@@ -252,6 +269,7 @@ public final class VirtualWorld extends PApplet
         }
 
         if(currentKey == 'p'){
+            world.removeEntityAt(pressed);
             world.setBackground(pressed,new Background("dirt", imageStore.getImageList("dirt")));
         }
 
