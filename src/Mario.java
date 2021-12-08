@@ -28,7 +28,7 @@ public class Mario extends MovingEntity{
             EventScheduler scheduler)
     {
 
-        this.imageStore = imageStore;
+//        this.imageStore = imageStore;
         List<PImage> images = new ArrayList<>();
         Coin coin= new Coin("0", new Point(0, 0), images, 0, 0, false);
         //Set to goomba later
@@ -73,10 +73,10 @@ public class Mario extends MovingEntity{
         if (Functions.adjacent(super.getPosition(), (target).getPosition())) {
 
             world.removeEntityAt(target.getPosition());
-            scheduleActions(scheduler, world, imageStore);
+//            scheduleActions(scheduler, world, imageStore);
 
 
-            return true;
+            return false;
         }
         else {
             Point nextPos = this.nextPosition(world, (target).getPosition());
