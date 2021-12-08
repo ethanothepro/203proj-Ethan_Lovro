@@ -99,7 +99,13 @@ public final class VirtualWorld extends PApplet
         frameCount+=1;
 
 
+        //Draw rectangle cursor
+        stroke(0,255,0);
+        fill(0,0,0,0);
 
+        int alignedObjectX = (mouseX/TILE_WIDTH)*TILE_WIDTH;
+        int alignedObjectY = (mouseY/TILE_HEIGHT)*TILE_HEIGHT;
+        rect(alignedObjectX,alignedObjectY ,32,32);
 
 
 
@@ -129,6 +135,17 @@ public final class VirtualWorld extends PApplet
             currentKey = 'c';
         }
 
+        if(key == 'e'){
+            currentKey = 'e';
+        }
+
+        if(key == 'p'){
+            currentKey = 'p';
+        }
+
+        if(key == '9'){
+            currentKey = '9';
+        }
 
     }
 
@@ -189,6 +206,20 @@ public final class VirtualWorld extends PApplet
             Coin coin= new Coin("Coin",pressed,imageStore.getImageList("coin"),1000,Functions.getNumFromRange(100,6),false) ;
             world.addEntity(coin);
             coin.scheduleActions(scheduler, world, imageStore);
+        }
+
+        if(currentKey == 'e'){
+            world.removeEntityAt(pressed);
+            Mario luigi = new Mario("Luigi",pressed,imageStore.getImageList("luigi"),1,0);
+            world.addEntity(luigi);
+            luigi.scheduleActions(scheduler,world,imageStore);
+        }
+
+        if (currentKey == '9'){
+            world.removeEntityAt(pressed);
+            Cactus rock = new Cactus("dwayne", pressed,imageStore.getImageList("dwayne"));
+            world.addEntity(rock);
+
         }
 
     }
