@@ -1,0 +1,23 @@
+Lovro Dukic, Ethan Outangoun
+CSC 203, Fall '21
+
+The source code can be found on Ethan Outangoun's GitHub project repository (username: ethanothepro).
+
+Project 5 Description:
+
+Click 'd' on the keyboard to select the default method and click anywhere to trigger the event.
+The default event will transform the cells in the vicinity of the selection into different background cells. If
+a Dude is in the vicinity, it will transform into Mario, and if a tree is in the vicinity, it will
+transform into a Coin. There is a 1/10 chance of a cactus to spawn, and the Stars (Faries) will navigate to
+the cacti and turn them into coins. Furthermore, a Pipe will spawn in the middle of the click and a Goomba
+will spawn on top of it. Mario navigates toward the idling Goomba and kills it and he also collects Coins. The new
+entities are Mario, Goomba, Coin, and Cactus. Mario navigates to Goombas and Coins and kills/collects them. Goomba
+spawns out of a Pipe and idles. Coins just animate and wait to be collected. Cacti serve as an obstacle until the Fairy
+collects them and turns them into coins.
+
+Furthermore, selecting various other keys on the keyboard will change the event triggered. 'w' selects water, 'r' is a
+stone, 'c' is a coin, 's' is sand, 'e' is Luigi. Clicking after selecting the item will spawn whatever item is selected
+at the mouse location (for world building and editing). Luigi acts just like Mario but runs faster.
+
+Lovro worked on the Coin class and item selection and Ethan worked on the Mario class and mouse tracker. The rest of the
+coding/debugging was done together, for example incorporating the Cactus and the Goomba.
