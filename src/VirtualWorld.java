@@ -282,6 +282,9 @@ public final class VirtualWorld extends PApplet
                 try{
                     world.tryAddEntity(mario);
                     mario.scheduleActions(scheduler,world,imageStore);
+                    if (world.getBackgroundCell(point).getId().equals("grass") ||world.getBackgroundCell(point).getId().equals("flowers")){
+                        world.setBackground(point,new Background("sand",imageStore.getImageList("sand")));
+                    }
 
                 }
                 catch (Exception e){
@@ -462,7 +465,7 @@ public final class VirtualWorld extends PApplet
     public static void scheduleActions(
             WorldModel world, EventScheduler scheduler, ImageStore imageStore)
     {
-        System.out.println("DSADA");
+
         for (Entity entity : world.getEntities()) {
             if (entity instanceof Animators) {
                 ((Animators) entity).scheduleActions(scheduler, world, imageStore);
