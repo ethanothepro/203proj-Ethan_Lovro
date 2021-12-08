@@ -52,7 +52,7 @@ public final class VirtualWorld extends PApplet
     public int frameCount;
 
     private char currentKey = 'd';
-
+    private boolean selectorLarge = true;
 
 
 
@@ -101,11 +101,20 @@ public final class VirtualWorld extends PApplet
 
         //Draw rectangle cursor
         stroke(0,255,0);
+        strokeWeight(2);
         fill(0,0,0,0);
 
-        int alignedObjectX = (mouseX/TILE_WIDTH)*TILE_WIDTH;
-        int alignedObjectY = (mouseY/TILE_HEIGHT)*TILE_HEIGHT;
-        rect(alignedObjectX,alignedObjectY ,32,32);
+        if (!selectorLarge) {
+            int alignedObjectX = (mouseX / TILE_WIDTH) * TILE_WIDTH;
+            int alignedObjectY = (mouseY / TILE_HEIGHT) * TILE_HEIGHT;
+            rect(alignedObjectX, alignedObjectY, 32, 32);
+        }
+        else{
+            int alignedObjectX = (mouseX / TILE_WIDTH) * TILE_WIDTH;
+            int alignedObjectY = (mouseY / TILE_HEIGHT) * TILE_HEIGHT;
+            rect(alignedObjectX-160, alignedObjectY-160, 352, 352);
+
+        }
 
 
 
@@ -118,45 +127,65 @@ public final class VirtualWorld extends PApplet
         super.keyPressed(event);
         if (key == 'w'){
             currentKey = 'w';
+            System.out.println("Block selected: Water\n");
         }
         if( key == 'd'){
             currentKey = 'd';
+            System.out.println("Block selected: Default\n");
         }
         if(key == 'r'){
             currentKey = 'r';
+            System.out.println("Block selected: Rock\n");
         }
         if(key == 'l') {
             currentKey = 'l';
+            System.out.println("Block selected: Lava\n");
         }
         if(key == 's') {
             currentKey = 's';
+            System.out.println("Block selected: Sand\n");
         }
         if(key == 'c') {
             currentKey = 'c';
+            System.out.println("Block selected: Coin\n");
         }
 
         if(key == 'e'){
             currentKey = 'e';
+            System.out.println("Block selected: LUIGI!!!!!!\n");
         }
 
         if(key == 'p'){
             currentKey = 'p';
+            System.out.println("Block selected: Pathway\n");
         }
 
         if(key == '9'){
             currentKey = '9';
+            System.out.println("Block selected: DWAYNNNNEEE THE ROCKKKK JOHNSONNNNNNNNNNNNN\n");
+        }
+        if(key == 'g'){
+            currentKey = 'g';
+            System.out.println("Block selected: Grass\n");
         }
 
+
+        if (currentKey!= 'd'){
+            selectorLarge = false;
+        }
+        else{
+            selectorLarge = true;
+        }
     }
 
     // Just for debugging and for P5
     public void mousePressed() {
         Point pressed = mouseToPoint(mouseX, mouseY);
         List<Point> areaPoints = generateArea(pressed);
-        System.out.println("Background: " + world.getBackgroundCell(pressed).getId());
-        System.out.println("Object: " + world.getOccupancyCell(pressed));
+
 
         if(currentKey == 'd') {
+
             areaAction(areaPoints);
 
             Goomba goomba = new Goomba("Goomba", new Point(pressed.x, pressed.y - 1), imageStore.getImageList("goomba"), 1000, 6);
@@ -220,6 +249,15 @@ public final class VirtualWorld extends PApplet
             Cactus rock = new Cactus("dwayne", pressed,imageStore.getImageList("dwayne"));
             world.addEntity(rock);
 
+        }
+
+        if(currentKey == 'p'){
+            world.setBackground(pressed,new Background("dirt", imageStore.getImageList("dirt")));
+        }
+
+        if (currentKey == 'g'){
+            world.removeEntityAt(pressed);
+            world.setBackground(pressed, new Background("grass", imageStore.getImageList("grass")));
         }
 
     }
